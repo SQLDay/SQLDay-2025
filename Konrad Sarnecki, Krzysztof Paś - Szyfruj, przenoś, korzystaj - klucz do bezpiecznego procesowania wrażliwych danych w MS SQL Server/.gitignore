@@ -1,0 +1,5 @@
+terraform/terraform.*
+terraform/.terraform.lock.hcl
+terraform/.terraform/providers/
+terraform/.terraform.tfstate.lock.info
+python/__pycache__/common.cpython-312.pyc
