@@ -1,0 +1,5 @@
+init installation
+dotnet tool install --global Microsoft.DataApiBuilder
+
+updates
+dotnet tool update --global Microsoft.DataApiBuilder

@@ -1,0 +1,96 @@
+----------------------------------------------------
+| SIMPLE USER
+| Goal: “I just want to read the list of keynotes”.
+----------------------------------------------------
+
+REST API  
+https://localhost:5001/api/Keynotes
+
+GraphQL 
+{
+  keynotes {         
+    items {         
+      KeynoteID
+      Title
+      Speaker
+      Event
+      Year
+      CoSpeaking
+    }
+    hasNextPage      
+  }
+}
+
+-------------------------------------------------
+| DEVELOPER
+| Goal: “I need filtering, pagination and CRUD”.
+-------------------------------------------------
+
+http://localhost:5000/swagger/index.html
+
+1. Swagger field filtering
+Speaker="Natalia Warszewska" -> HTTP 400 (bad request)
+Speaker eq 'Natalia Warszewska' -> HTTP 200
+
+2. GraphQL filtering
+{
+  sessions(
+    filter: {     
+      Speaker: { eq: "Natalia Warszewska" }
+    }
+  ) {
+    items {
+      Speaker
+      Title
+      Event             
+    }
+  }
+}
+
+3. Adding item, adding session (REST, swagger)
+{
+  "Event": "SQLDay 2025",
+  "Year": 2025,
+  "SubmissionType": "Session",
+  "Title": "Data API Builder",
+  "Speaker": "Natalia Warszewska",
+  "CoSpeaking": false
+}
+
+4. Update existing items
+(REST PATCH, swagger)
+
+5. Dropping existing items
+(REST DELETE, swagger)
+
+6. How does pagination work? 
+
+	REST 
+	http://localhost:5000/api/Sessions
+	nextPage -> contains url to next page if exists
+
+	GraphQL
+	flag 'hasNextPage'
+	endCursor contains unique page identifier
+	
+	to get next page, use 'after' field
+	
+	{
+	  sessions(
+		first: 100,
+		after: "W3siRW50aXR5TmFtZSI6IlNlc3Npb25zIiwiRmllbGROYW1lIjoiU2Vzc2lvbklEIiwiRmllbGRWYWx1ZSI6MTAwLCJEaXJlY3Rpb24iOjB9XQ=="
+	  ) {
+		items {
+		  SessionID
+		  Title
+		  Speaker
+		  Event
+		  Year
+		  CoSpeaking
+		}
+		hasNextPage
+		endCursor
+	  }
+	}
+
+	

@@ -1,0 +1,13 @@
+# 1. one-liner to create the baseline
+
+dab init --database-type mssql --connection-string "@env('SQL_CONN’)”  --host-mode Development
+
+# 2. repeat per object you want to expose
+
+dab add Sessions   --source „dab.sessions"   --permissions "anonymous:read"
+dab add Keynotes   --source „dab.keynotes"   --permissions "anonymous:*"
+
+# 3. commit dab-config.json to Git
+
+# 4. spin it up locally / in CI
+dab start
