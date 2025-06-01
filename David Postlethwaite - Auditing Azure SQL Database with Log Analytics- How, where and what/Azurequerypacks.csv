@@ -1,0 +1,3 @@
+﻿NAME,TYPE,RESOURCE GROUP,LOCATION,SUBSCRIPTION
+"SQL-Querypack","Log Analytics query pack","SQLAnalaytics-rg","North Europe","Visual Studio Enterprise"
+"SQLDatabase-QueryPack","Log Analytics query pack","SQLAnalaytics-rg","North Europe","Visual Studio Enterprise"

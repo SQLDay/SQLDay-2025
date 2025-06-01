@@ -1,0 +1,732 @@
+{
+  "version": "Notebook/1.0",
+  "items": [
+    {
+      "type": 1,
+      "content": {
+        "json": "#  SQL Monitoring Dashboard"
+      },
+      "name": "Heading"
+    },
+    {
+      "type": 9,
+      "content": {
+        "version": "KqlParameterItem/1.0",
+        "crossComponentResources": [
+          "{Subscription}"
+        ],
+        "parameters": [
+          {
+            "id": "1ac183e5-3338-4a5d-aeea-521b421e8111",
+            "version": "KqlParameterItem/1.0",
+            "name": "TimeRange",
+            "label": " Time Range",
+            "type": 4,
+            "isRequired": true,
+            "typeSettings": {
+              "selectableValues": [
+                {
+                  "durationMs": 300000
+                },
+                {
+                  "durationMs": 900000
+                },
+                {
+                  "durationMs": 1800000
+                },
+                {
+                  "durationMs": 3600000
+                },
+                {
+                  "durationMs": 14400000
+                },
+                {
+                  "durationMs": 43200000
+                },
+                {
+                  "durationMs": 86400000
+                },
+                {
+                  "durationMs": 172800000
+                },
+                {
+                  "durationMs": 259200000
+                },
+                {
+                  "durationMs": 604800000
+                },
+                {
+                  "durationMs": 1209600000
+                },
+                {
+                  "durationMs": 2419200000
+                },
+                {
+                  "durationMs": 2592000000
+                }
+              ]
+            },
+            "timeContext": {
+              "durationMs": 86400000
+            },
+            "value": {
+              "durationMs": 86400000
+            }
+          },
+          {
+            "id": "e57d4398-2a17-460c-9b10-6912a2fbd2e4",
+            "version": "KqlParameterItem/1.0",
+            "name": "Subscription",
+            "type": 6,
+            "isRequired": true,
+            "typeSettings": {
+              "additionalResourceOptions": [],
+              "includeAll": false
+            },
+            "value": "/subscriptions/4a14df24-6439-4b89-893a-9bb2db4543d2"
+          },
+          {
+            "id": "9df6e127-c134-4669-99e4-6333f2d03c47",
+            "version": "KqlParameterItem/1.0",
+            "name": "SQLServer",
+            "type": 5,
+            "isRequired": true,
+            "query": "where type =~ \"Microsoft.Sql/servers\"\r\n|project id,resourceGroup",
+            "crossComponentResources": [
+              "{Subscription}"
+            ],
+            "typeSettings": {
+              "additionalResourceOptions": [],
+              "showDefault": false
+            },
+            "queryType": 1,
+            "resourceType": "microsoft.resourcegraph/resources",
+            "value": "/subscriptions/4a14df24-6439-4b89-893a-9bb2db4543d2/resourceGroups/dataSaturday-rg/providers/Microsoft.Sql/servers/cluny-sql01-dev"
+          },
+          {
+            "id": "38fb5992-01fa-4257-bccd-b4a3ae53d5de",
+            "version": "KqlParameterItem/1.0",
+            "name": "SQLDatabase",
+            "type": 5,
+            "isRequired": true,
+            "isGlobal": true,
+            "multiSelect": true,
+            "quote": "'",
+            "delimiter": ",",
+            "query": "where type =~ \"Microsoft.Sql/servers/databases\"\r\n| where id contains \"{SQLServer}\"\r\n",
+            "crossComponentResources": [
+              "{Subscription}"
+            ],
+            "typeSettings": {
+              "additionalResourceOptions": [
+                "value::all"
+              ],
+              "showDefault": false
+            },
+            "queryType": 1,
+            "resourceType": "microsoft.resourcegraph/resources",
+            "value": [
+              "/subscriptions/4a14df24-6439-4b89-893a-9bb2db4543d2/resourceGroups/dataSaturday-rg/providers/Microsoft.Sql/servers/cluny-sql01-dev/databases/WorldWideImporters"
+            ]
+          },
+          {
+            "id": "a9bb9c42-dfcc-45b7-ba35-c14237492767",
+            "version": "KqlParameterItem/1.0",
+            "name": "Analytics",
+            "type": 5,
+            "description": "This works out the analytics for the SQL Server",
+            "isRequired": true,
+            "query": "Resources\r\n| where type =~ \"microsoft.operationalinsights/workspaces\"\r\n| project id",
+            "crossComponentResources": [
+              "{Subscription}"
+            ],
+            "typeSettings": {
+              "additionalResourceOptions": [],
+              "showDefault": false
+            },
+            "queryType": 1,
+            "resourceType": "microsoft.resourcegraph/resources",
+            "value": "/subscriptions/4a14df24-6439-4b89-893a-9bb2db4543d2/resourceGroups/SQLAnalaytics-rg/providers/Microsoft.OperationalInsights/workspaces/cluny-SQLAnalytics"
+          }
+        ],
+        "style": "pills",
+        "queryType": 1,
+        "resourceType": "microsoft.resourcegraph/resources"
+      },
+      "name": "parameters - 11"
+    },
+    {
+      "type": 11,
+      "content": {
+        "version": "LinkItem/1.0",
+        "style": "tabs",
+        "tabStyle": "bigger",
+        "links": [
+          {
+            "id": "f27bd69f-bdd3-4a01-a127-6d76d338df39",
+            "cellValue": "Tab",
+            "linkTarget": "parameter",
+            "linkLabel": "Security Insights",
+            "subTarget": "Insights",
+            "preText": "Analytics",
+            "postText": "",
+            "style": "link"
+          },
+          {
+            "id": "423cb99f-65e0-475d-8a5c-b9381b4f7a74",
+            "cellValue": "Tab",
+            "linkTarget": "parameter",
+            "linkLabel": "SQL Analytics",
+            "subTarget": "Analytics",
+            "preText": "Insights",
+            "style": "link"
+          },
+          {
+            "id": "1fa004df-b88a-491d-b0aa-dc77c8b000c0",
+            "cellValue": "Tab",
+            "linkTarget": "parameter",
+            "linkLabel": "Performance",
+            "subTarget": "Performance",
+            "preText": "Performance",
+            "style": "link"
+          }
+        ]
+      },
+      "name": "SelectedTAB",
+      "styleSettings": {
+        "showBorder": true
+      }
+    },
+    {
+      "type": 12,
+      "content": {
+        "version": "NotebookGroup/1.0",
+        "groupType": "editable",
+        "title": "SQL Insights",
+        "items": [
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "AzureDiagnostics\r\n| where Category == 'SQLSecurityAuditEvents'\r\n    and true == true\r\n    and true == true\r\n    and true == true\r\n    and true == true\r\n| where TimeGenerated {TimeRange} \r\n| where ResourceId in~ ({SQLDatabase})   \r\n    | summarize c = count() by bin(TimeGenerated, 1h)\r\n    |render barchart",
+              "size": 0,
+              "title": "Audit Distribution",
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces",
+              "crossComponentResources": [
+                "{Analytics}"
+              ]
+            },
+            "customWidth": "20",
+            "name": "query - 0",
+            "styleSettings": {
+              "maxWidth": "20",
+              "showBorder": true
+            }
+          },
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "AzureDiagnostics\r\n| where Category == 'SQLSecurityAuditEvents'\r\n    and true == true\r\n    and true == true\r\n    and true == true\r\n    and true == true\r\n| where TimeGenerated {TimeRange}\r\n| where ResourceId in~ ({SQLDatabase})\r\n| summarize AggregatedValue = count() by client_ip_s\r\n| order by AggregatedValue\r\n| render barchart",
+              "size": 0,
+              "title": "Distribution by IP",
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces",
+              "crossComponentResources": [
+                "{Analytics}"
+              ]
+            },
+            "customWidth": "20",
+            "name": "query - 1",
+            "styleSettings": {
+              "margin": "1",
+              "padding": "1",
+              "maxWidth": "20",
+              "showBorder": true
+            }
+          },
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "AzureDiagnostics\r\n| where Category == 'SQLSecurityAuditEvents'\r\n    and true == true\r\n    and true == true\r\n    and true == true\r\n    and true == true\r\n| where TimeGenerated {TimeRange}    \r\n| where ResourceId in~ ({SQLDatabase})\r\n| summarize AggregatedValue = count() by server_principal_name_s\r\n| order by AggregatedValue\r\n| render barchart ",
+              "size": 0,
+              "title": "Distribution by Principle",
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces",
+              "crossComponentResources": [
+                "{Analytics}"
+              ]
+            },
+            "customWidth": "20",
+            "name": "query - 2",
+            "styleSettings": {
+              "margin": "5",
+              "padding": "5",
+              "maxWidth": "20",
+              "showBorder": true
+            }
+          },
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "AzureDiagnostics\r\n| where Category == 'SQLSecurityAuditEvents'\r\n    and true == true\r\n    and true == true\r\n    and true == true\r\n    and true == true\r\n| where TimeGenerated {TimeRange}    \r\n| where ResourceId in~ ({SQLDatabase})\r\n| summarize count() by succeeded_s\r\n| render barchart\r\n",
+              "size": 0,
+              "title": "Distribution by Success",
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces",
+              "crossComponentResources": [
+                "{Analytics}"
+              ]
+            },
+            "customWidth": "20",
+            "name": "query - 3",
+            "styleSettings": {
+              "margin": "5",
+              "padding": "5",
+              "maxWidth": "20",
+              "showBorder": true
+            }
+          },
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "AzureDiagnostics\r\n| where Category == 'SQLSecurityAuditEvents'\r\n    and true == true\r\n    and true == true\r\n    and true == true\r\n    and true == true\r\n| where TimeGenerated {TimeRange} \r\n| where ResourceId in~ ({SQLDatabase})   \r\n| summarize count() by database_name_s\r\n| render piechart",
+              "size": 0,
+              "title": "Distribution by Database",
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces",
+              "crossComponentResources": [
+                "{Analytics}"
+              ]
+            },
+            "customWidth": "20",
+            "name": "query - 9",
+            "styleSettings": {
+              "maxWidth": "20",
+              "showBorder": true
+            }
+          },
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "let subQuery = AzureDiagnostics\r\n| where Category == 'SQLSecurityAuditEvents'\r\n    and true == true\r\n    and true == true\r\n    and true == true\r\n    and true == true\r\n| where TimeGenerated {TimeRange}    \r\n| where ResourceId in~ ({SQLDatabase})\r\n| summarize AggregatedValue = count() by action_name_s\r\n| order by AggregatedValue;\r\nsubQuery | project ['Action Name'] = action_name_s, count = AggregatedValue\r\n",
+              "size": 0,
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces",
+              "crossComponentResources": [
+                "{Analytics}"
+              ],
+              "sortBy": []
+            },
+            "customWidth": "20",
+            "name": "query - 4",
+            "styleSettings": {
+              "margin": "5",
+              "padding": "5",
+              "maxWidth": "20",
+              "showBorder": true
+            }
+          },
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "let subQuery = AzureDiagnostics\r\n| where Category == 'SQLSecurityAuditEvents'\r\n    and true == true\r\n    and true == true\r\n    and true == true\r\n    and true == true\r\n| where TimeGenerated {TimeRange} \r\n| where ResourceId in~ ({SQLDatabase})   \r\n| summarize AggregatedValue = count() by client_ip_s\r\n| order by AggregatedValue;\r\nsubQuery | project ['IP Address'] = client_ip_s, count = AggregatedValue",
+              "size": 0,
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces",
+              "crossComponentResources": [
+                "{Analytics}"
+              ],
+              "sortBy": []
+            },
+            "customWidth": "20",
+            "name": "query - 5",
+            "styleSettings": {
+              "margin": "5",
+              "padding": "5",
+              "maxWidth": "20",
+              "showBorder": true
+            }
+          },
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "let subQuery = AzureDiagnostics\r\n| where Category == 'SQLSecurityAuditEvents'\r\n    and true == true\r\n    and true == true\r\n    and true == true\r\n    and true == true\r\n| where TimeGenerated {TimeRange}    \r\n| summarize AggregatedValue = count() by server_principal_name_s\r\n| order by AggregatedValue;\r\nsubQuery | project  principal = server_principal_name_s, count = AggregatedValue",
+              "size": 0,
+              "exportedParameters": [
+                {
+                  "parameterType": 1
+                },
+                {
+                  "fieldName": "principal",
+                  "parameterName": "SelectedPrincipalName",
+                  "parameterType": 1
+                }
+              ],
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces",
+              "crossComponentResources": [
+                "{Analytics}"
+              ],
+              "sortBy": []
+            },
+            "customWidth": "20",
+            "name": "query - 6",
+            "styleSettings": {
+              "margin": "5",
+              "padding": "5",
+              "maxWidth": "20",
+              "showBorder": true
+            }
+          },
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "let subQuery = AzureDiagnostics\r\n| where Category == 'SQLSecurityAuditEvents'\r\n    and true == true\r\n    and true == true\r\n    and true == true\r\n    and true == true\r\n| where TimeGenerated {TimeRange}    \r\n| where succeeded_s == 'false'\r\n| summarize count() by server_principal_name_s;\r\nsubQuery | project principal = server_principal_name_s, failures = count_",
+              "size": 0,
+              "title": "Failed Logins",
+              "timeContextFromParameter": "TimeRange",
+              "exportFieldName": "principal",
+              "exportParameterName": "SelectedPrincipalName",
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces",
+              "crossComponentResources": [
+                "{Analytics}"
+              ],
+              "gridSettings": {
+                "filter": true
+              },
+              "sortBy": []
+            },
+            "customWidth": "20",
+            "name": "query - 7",
+            "styleSettings": {
+              "maxWidth": "20",
+              "showBorder": true
+            }
+          },
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "AzureDiagnostics\r\n| where Category == 'SQLSecurityAuditEvents'\r\n    and true == true\r\n    and true == true\r\n    and true == true\r\n    and true == true\r\n| where TimeGenerated {TimeRange}   \r\n| where ResourceId in~ ({SQLDatabase})\r\n| summarize AggregatedValue = count() by database_name_s\r\n| order by AggregatedValue",
+              "size": 0,
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces",
+              "crossComponentResources": [
+                "{Analytics}"
+              ]
+            },
+            "customWidth": "20",
+            "name": "query - 10",
+            "styleSettings": {
+              "maxWidth": "20",
+              "showBorder": true
+            }
+          },
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "search server_principal_name_s == '{SelectedPrincipalName}'\r\n| where Category == 'SQLSecurityAuditEvents'\r\n| where TimeGenerated {TimeRange} \r\n| project\r\n    bin(event_time_t, 1ms),\r\n    SubscriptionId,\r\n    ResourceGroup,\r\n    server_instance_name_s,\r\n    database_name_s,\r\n    is_server_level_audit_s,\r\n    statement_s,\r\n    succeeded_s,\r\n    duration_milliseconds_d,\r\n    response_rows_d,\r\n    affected_rows_d,\r\n    action_name_s,\r\n    class_type_description_s,\r\n    client_ip_s,\r\n    server_principal_name_s,\r\n    database_principal_name_s,\r\n    application_name_s,\r\n    sequence_group_id_g,\r\n    additional_information_s,\r\n    data_sensitivity_information_s\r\n| sort by event_time_t desc\r\n",
+              "size": 0,
+              "timeContextFromParameter": "TimeRange",
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces",
+              "crossComponentResources": [
+                "{Analytics}"
+              ]
+            },
+            "name": "query - 11"
+          }
+        ]
+      },
+      "conditionalVisibility": {
+        "parameterName": "Tab",
+        "comparison": "isEqualTo",
+        "value": "Insights"
+      },
+      "name": "Insights"
+    },
+    {
+      "type": 12,
+      "content": {
+        "version": "NotebookGroup/1.0",
+        "groupType": "editable",
+        "title": "SQL Analytics",
+        "items": [
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "AzureDiagnostics\r\n| where Category == \"QueryStoreRuntimeStatistics\"\r\n| where ResourceId contains \"/SERVERS/\"\r\n| where ResourceId contains \"/DATABASES/\"  \r\n| where TimeGenerated {TimeRange} \r\n| where ResourceId in~ ({SQLDatabase})\r\n| project\r\n    Resource = strcat(extract(\".+/SERVERS/([^/]+)/.+\", 1, ResourceId), \".\", extract(\".+/DATABASES/(.+)\", 1, ResourceId)).tolower(),\r\n    interval_start_time_d,\r\n    max_duration_d,\r\n    cpu_time_d,\r\n    duration_d,\r\n    count_executions_d\r\n| extend interval_start_time_date = round(interval_start_time_d / 4294967296, 0)\r\n| extend interval_start_time_time = interval_start_time_d - 4294967296 * interval_start_time_date\r\n| extend interval_start_t = datetime(1900-1-1) + time(1d) * interval_start_time_date + time(1s) * (interval_start_time_time / 300.0)\r\n| summarize\r\n    avg_duration = sum(duration_d) / sum(count_executions_d) / 1000000,\r\n    avg_cpu = sum(cpu_time_d) / sum(count_executions_d) / 1000000\r\n    by bin(interval_start_t, 30m)\r\n| render timechart",
+              "size": 0,
+              "title": "Query Duration in Seconds",
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces",
+              "crossComponentResources": [
+                "{Analytics}"
+              ]
+            },
+            "customWidth": "25",
+            "name": "query - 0",
+            "styleSettings": {
+              "maxWidth": "25",
+              "showBorder": true
+            }
+          },
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "let metrics = AzureMetrics \r\n    | where ResourceProvider == \"MICROSOFT.SQL\"\r\n    | where ResourceId contains \"/SERVERS/\"\r\n    | where ResourceId contains \"/DATABASES/\" and MetricName in ('cpu_percent', 'physical_data_read_percent', 'log_write_percent', 'workers_percent', 'sessions_percent')\r\n    | summarize Maximum = max(min_of(Maximum, 100.0)), Average = max(min_of(Average, 100.0)) by ResourceId, bin(TimeGenerated, 15m);\r\nlet cachedMetrics = materialize(metrics\r\n    | summarize max = max(Maximum), min_max = min(Maximum), avg = avg(Average) by ResourceId, bin(TimeGenerated, 30m)\r\n    | summarize total_max = max(max), total_min_max = max(min_max), total_avg = max(avg) by ResourceId, bin(TimeGenerated, 30m)\r\n    | extend category = case(total_max < 20 or total_avg < 4, \"low\", total_max < 80 or total_avg < 16, \"medium\", total_avg > 80 or total_min_max > 80, \"high\", \"none\")\r\n    | project ResourceId, TimeGenerated, category);\r\nlet cachedMetricsTime = materialize(cachedMetrics\r\n    | where category == \"none\"\r\n    | join kind= leftouter\r\n        (\r\n        AzureMetrics\r\n        | where ResourceProvider == \"MICROSOFT.SQL\"\r\n        | where ResourceId contains \"/DATABASES/\" and MetricName in ('cpu_percent', 'physical_data_read_percent', 'log_write_percent', 'workers_percent', 'sessions_percent')\r\n        )\r\n        on ResourceId\r\n    | extend Maximum1 = min_of(Maximum, 100.0)\r\n    | extend avg = (Maximum1 + Minimum + 2 * Average) / 4.0\r\n    | extend avg_var = avg - Minimum\r\n    | extend avg_low = avg - 0.5 * avg_var, avg_high = avg + 0.5 * avg_var\r\n    | extend a = pack_array(Minimum, Maximum1, avg_low, avg_high)\r\n    | summarize makelist(a) by bin(TimeGenerated, 15m), ResourceId, MetricName\r\n    | mvexpand list_a\r\n    | summarize metric_value = percentile(todouble(list_a), 80)  by bin(TimeGenerated, 30m), ResourceId, MetricName\r\n    | summarize max(metric_value) by ResourceId, bin(TimeGenerated, 30m)\r\n    | extend category = case(max_metric_value < 20, \"low\", max_metric_value >= 20 and max_metric_value < 80, \"medium\", \"high\")\r\n    | project ResourceId, TimeGenerated, category);\r\ncachedMetrics\r\n| where category != \"none\"\r\n| where TimeGenerated {TimeRange}  \r\n| where ResourceId in~ ({SQLDatabase})\r\n| union cachedMetricsTime\r\n| summarize\r\n    high = countif(category == \"high\"),\r\n    medium = countif(category == \"medium\"),\r\n    low = countif(category == \"low\")\r\n    by bin(TimeGenerated, 30m)\r\n| render barchart",
+              "size": 0,
+              "title": "Resources By Utilization Bucket",
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces",
+              "crossComponentResources": [
+                "{Analytics}"
+              ]
+            },
+            "customWidth": "25",
+            "name": "query - 1",
+            "styleSettings": {
+              "margin": "1",
+              "padding": "1",
+              "maxWidth": "25",
+              "showBorder": true
+            }
+          },
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "AzureDiagnostics\r\n| where (Category == \"Errors\" and error_number_d !in (9104, 22803))\r\n| where ResourceId contains \"/SERVERS/\"\r\n| where ResourceId contains \"/DATABASES/\" \r\n| where TimeGenerated {TimeRange} \r\n| where ResourceId in~ ({SQLDatabase})\r\n| project\r\n    Resource = strcat(extract(\".+/SERVERS/([^/]+)/.+\", 1, ResourceId), \".\", extract(\".+/DATABASES/(.+)\", 1, ResourceId)).tolower(),\r\n    bin(TimeGenerated, 30m)\r\n| evaluate pivot(Resource, count())\r\n| render barchart",
+              "size": 0,
+              "title": "Number of Errors",
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces",
+              "crossComponentResources": [
+                "{Analytics}"
+              ]
+            },
+            "customWidth": "25",
+            "name": "query - 2",
+            "styleSettings": {
+              "margin": "5",
+              "padding": "5",
+              "maxWidth": "25",
+              "showBorder": true
+            }
+          },
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "AzureDiagnostics\r\n| where (Category == \"Blocks\")\r\n| where ResourceId contains \"/SERVERS/\"\r\n| where ResourceId contains \"/DATABASES/\" \r\n| where TimeGenerated {TimeRange} \r\n| where ResourceId in~ ({SQLDatabase})\r\n| project\r\n    Resource = strcat(extract(\".+/SERVERS/([^/]+)/.+\", 1, ResourceId), \".\", extract(\".+/DATABASES/(.+)\", 1, ResourceId)).tolower(),\r\n    bin(TimeGenerated, 30m)\r\n| evaluate pivot(Resource, count())\r\n| render barchart\r\n",
+              "size": 0,
+              "title": "Number of Blocking Events",
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces",
+              "crossComponentResources": [
+                "{Analytics}"
+              ]
+            },
+            "customWidth": "25",
+            "name": "query - 3",
+            "styleSettings": {
+              "margin": "5",
+              "padding": "5",
+              "maxWidth": "25",
+              "showBorder": true
+            }
+          },
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "AzureDiagnostics\r\n| where (Category == \"Timeouts\" and query_hash_s !in (\"\", \"0\", \"-1\"))\r\n| where ResourceId contains \"/SERVERS/\"\r\n| where ResourceId contains \"/DATABASES/\" \r\n| where TimeGenerated {TimeRange} \r\n| where ResourceId in~ ({SQLDatabase})\r\n| project\r\n    Resource = strcat(extract(\".+/SERVERS/([^/]+)/.+\", 1, ResourceId), \".\", extract(\".+/DATABASES/(.+)\", 1, ResourceId)).tolower(),\r\n    bin(TimeGenerated, 30m)\r\n| evaluate pivot(Resource, count())\r\n| render barchart",
+              "size": 0,
+              "title": "Number of Timeouts",
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces",
+              "crossComponentResources": [
+                "{Analytics}"
+              ]
+            },
+            "customWidth": "25",
+            "name": "query - 4",
+            "styleSettings": {
+              "margin": "5",
+              "padding": "5",
+              "maxWidth": "25",
+              "showBorder": true
+            }
+          },
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "AzureDiagnostics\r\n| where (Category == \"Deadlocks\")\r\n| where ResourceId contains \"/SERVERS/\"\r\n| where ResourceId contains \"/DATABASES/\" \r\n| where TimeGenerated {TimeRange} \r\n| where ResourceId in~ ({SQLDatabase})\r\n| project\r\n    Resource = strcat(extract(\".+/SERVERS/([^/]+)/.+\", 1, ResourceId), \".\", extract(\".+/DATABASES/(.+)\", 1, ResourceId)).tolower(),\r\n    bin(TimeGenerated, 3h)\r\n| evaluate pivot(Resource, count())\r\n| render barchart",
+              "size": 0,
+              "showAnalytics": true,
+              "title": "Number of Deadlock Events",
+              "showRefreshButton": true,
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces",
+              "crossComponentResources": [
+                "{Analytics}"
+              ]
+            },
+            "customWidth": "25",
+            "showPin": true,
+            "name": "query - 5",
+            "styleSettings": {
+              "margin": "5",
+              "padding": "5",
+              "maxWidth": "25",
+              "showBorder": true
+            }
+          },
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "AzureDiagnostics\r\n| where Category == \"QueryStoreWaitStatistics\"\r\n| where ResourceId contains \"/SERVERS/\"\r\n| where ResourceId contains \"/DATABASES/\" \r\n| where TimeGenerated {TimeRange} \r\n| where ResourceId in~ ({SQLDatabase})\r\n| project\r\n    Resource = strcat(extract(\".+/SERVERS/([^/]+)/.+\", 1, ResourceId), \".\", extract(\".+/DATABASES/(.+)\", 1, ResourceId)).tolower(),\r\n    TimeGenerated,\r\n    total_query_wait_time_ms_d,\r\n    wait_category_s\r\n| summarize total_wait_time = sum(total_query_wait_time_ms_d) / 1000\r\n    by wait_category_s, bin(TimeGenerated, 30m)\r\n| top 1000 by total_wait_time desc\r\n| evaluate pivot(wait_category_s, sum(total_wait_time))\r\n| render barchart",
+              "size": 0,
+              "title": "Total Time Queries Spent Waiting per Type",
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces",
+              "crossComponentResources": [
+                "{Analytics}"
+              ]
+            },
+            "customWidth": "25",
+            "name": "query - 6",
+            "styleSettings": {
+              "margin": "5",
+              "padding": "5",
+              "maxWidth": "25",
+              "showBorder": true
+            }
+          }
+        ]
+      },
+      "conditionalVisibility": {
+        "parameterName": "Tab",
+        "comparison": "isEqualTo",
+        "value": "Analytics"
+      },
+      "name": "SQL Analytics"
+    },
+    {
+      "type": 12,
+      "content": {
+        "version": "NotebookGroup/1.0",
+        "groupType": "editable",
+        "title": "Performance",
+        "items": [
+          {
+            "type": 10,
+            "content": {
+              "chartId": "workbook3b549a3e-e411-4d9d-8dbc-6bdec0375ee2",
+              "version": "MetricsItem/2.0",
+              "size": 0,
+              "chartType": 2,
+              "resourceType": "microsoft.sql/servers/databases",
+              "metricScope": 0,
+              "resourceParameter": "SQLDatabase",
+              "resourceIds": [
+                "{SQLDatabase}"
+              ],
+              "timeContextFromParameter": "TimeRange",
+              "timeContext": {
+                "durationMs": 0
+              },
+              "metrics": [
+                {
+                  "namespace": "microsoft.sql/servers/databases",
+                  "metric": "microsoft.sql/servers/databases-Basic-cpu_percent",
+                  "aggregation": 3
+                }
+              ],
+              "title": "CPU",
+              "gridSettings": {
+                "rowLimit": 10000
+              }
+            },
+            "customWidth": "50",
+            "name": "metric - 0",
+            "styleSettings": {
+              "maxWidth": "50",
+              "showBorder": true
+            }
+          },
+          {
+            "type": 10,
+            "content": {
+              "chartId": "workbooke88b259e-f890-4a07-8b04-3af6b37ada84",
+              "version": "MetricsItem/2.0",
+              "size": 0,
+              "chartType": 2,
+              "resourceType": "microsoft.sql/servers/databases",
+              "metricScope": 0,
+              "resourceParameter": "SQLDatabase",
+              "resourceIds": [
+                "{SQLDatabase}"
+              ],
+              "timeContextFromParameter": "TimeRange",
+              "timeContext": {
+                "durationMs": 86400000
+              },
+              "metrics": [
+                {
+                  "namespace": "microsoft.sql/servers/databases",
+                  "metric": "microsoft.sql/servers/databases-Basic-physical_data_read_percent",
+                  "aggregation": 4
+                }
+              ],
+              "title": "Data I/o",
+              "gridSettings": {
+                "rowLimit": 10000
+              }
+            },
+            "customWidth": "50",
+            "name": "metric - 1",
+            "styleSettings": {
+              "margin": "5",
+              "padding": "5",
+              "maxWidth": "50",
+              "showBorder": true
+            }
+          }
+        ]
+      },
+      "conditionalVisibility": {
+        "parameterName": "Tab",
+        "comparison": "isEqualTo",
+        "value": "Performance"
+      },
+      "name": "Performance"
+    },
+    {
+      "type": 1,
+      "content": {
+        "json": "{SQLDatabase:name}"
+      },
+      "name": "text - 6"
+    }
+  ],
+  "fallbackResourceIds": [
+    "Azure Monitor"
+  ],
+  "$schema": "https://github.com/Microsoft/Application-Insights-Workbooks/blob/master/schema/workbook.json"
+}
